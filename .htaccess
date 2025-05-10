@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Bỏ qua các file và thư mục thực
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Chuyển hướng tất cả các yêu cầu không phải file thật về index.php
+    RewriteRule ^(.+)$ index.php?page=$1 [QSA,L]
+</IfModule>
