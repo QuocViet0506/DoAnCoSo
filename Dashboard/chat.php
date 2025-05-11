@@ -10,7 +10,6 @@ if (!$to_id) {
 }
 
 // 👉 Lấy tên người nhận
-//ABC
 $stmt = $pdo->prepare("SELECT full_name FROM users WHERE user_id = ?");
 $stmt->execute([$to_id]);
 $receiver = $stmt->fetch();
@@ -36,19 +35,75 @@ $stmt->execute([$my_id, $to_id, $to_id, $my_id]);
 $messages = $stmt->fetchAll();
 ?>
 
-<h3>💬 Trò chuyện với <?= htmlspecialchars($receiver['full_name']) ?></h3>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò chuyện</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .message-box {
+            position: relative;
+            max-width: 70%;
+            word-wrap: break-word;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .bg-primary {
+            background-color: #007bff !important;
+        }
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+        .input-group {
+            margin-top: 10px;
+        }
+        .message-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .message-container small {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        .message-form {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center mb-4">💬 Trò chuyện với <?= htmlspecialchars($receiver['full_name']) ?></h3>
 
-<div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-    <?php foreach ($messages as $m): ?>
-        <div style="text-align: <?= $m['sender_id'] == $my_id ? 'right' : 'left' ?>;">
-            <p><strong><?= $m['sender_id'] == $my_id ? 'Bạn' : $receiver['full_name'] ?>:</strong> <?= htmlspecialchars($m['message']) ?></p>
-            <small><?= $m['sent_at'] ?></small>
+        <div class="card">
+            <div class="card-body message-container">
+                <?php foreach ($messages as $m): ?>
+                    <div class="d-flex <?= $m['sender_id'] == $my_id ? 'justify-content-end' : 'justify-content-start' ?> mb-3">
+                        <div class="message-box <?= $m['sender_id'] == $my_id ? 'bg-primary text-white' : 'bg-light' ?>">
+                            <strong><?= $m['sender_id'] == $my_id ? 'Bạn' : $receiver['full_name'] ?>:</strong>
+                            <p class="mb-0"><?= htmlspecialchars($m['message']) ?></p>
+                            <small><?= $m['sent_at'] ?></small>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-    <?php endforeach; ?>
-</div>
 
-<form method="POST" class="mt-3">
-    <textarea name="message" class="form-control" required></textarea>
-    <button type="submit" class="btn btn-primary mt-2">Gửi</button>
-</form>
+        <form method="POST" class="message-form">
+            <div class="input-group">
+                <textarea name="message" class="form-control" placeholder="Nhập tin nhắn..." required></textarea>
+                <button type="submit" class="btn btn-primary">Gửi</button>
+            </div>
+        </form>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
