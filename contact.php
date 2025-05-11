@@ -3,103 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <title>Liên hệ</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2>Liên hệ với chúng tôi</h2>
-        <form action="actions/submit_contact.php" method="POST">
-            <div class="mb-3">
-                <label>Họ tên:</label>
-                <input type="text" name="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Email:</label>
-                <input type="email" name="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Chủ đề:</label>
-                <input type="text" name="subject" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Nội dung:</label>
-                <textarea name="message" class="form-control" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Gửi liên hệ</button>
-        </form>
-    </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Liên hệ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap & Icons -->
+    <!-- Bootstrap & Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
-            background: url('../assets/images/anh_giaotiep.jpg') no-repeat center center fixed;
+            height: 100%;
+        }
+
+        body {
+            background: url('assets/images/anh_lienhe.jpg') no-repeat center center fixed;
             background-size: cover;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Overlay làm mờ ảnh nền */
         .overlay {
             position: absolute;
             top: 0; left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: 0;
         }
 
         .contact-card {
             position: relative;
             z-index: 1;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 1rem;
+            padding: 2rem 2.5rem;
             max-width: 600px;
             width: 100%;
-            padding: 2rem;
-            border-radius: 1rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
         }
 
         .form-label i {
             color: #0d6efd;
-            margin-right: 6px;
+            margin-right: 8px;
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
         }
     </style>
 </head>
 <body>
-    <div class="overlay"></div> <!-- Overlay mờ -->
-    
+    <div class="overlay"></div>
+
     <div class="contact-card">
-        <h3 class="text-center mb-4 text-primary">📬 Liên hệ với chúng tôi</h3>
+        <h3 class="text-center text-primary mb-4">
+            <i class="bi bi-envelope-paper-heart-fill"></i> Liên hệ với chúng tôi
+        </h3>
         <form action="actions/submit_contact.php" method="POST">
             <div class="mb-3">
                 <label class="form-label"><i class="bi bi-person-circle"></i>Họ tên</label>
-                <input type="text" name="name" class="form-control" placeholder="Nhập họ tên..." required>
+                <input type="text" name="name" class="form-control" placeholder="Nguyễn Văn A" required>
             </div>
             <div class="mb-3">
                 <label class="form-label"><i class="bi bi-envelope"></i>Email</label>
                 <input type="email" name="email" class="form-control" placeholder="example@gmail.com" required>
             </div>
             <div class="mb-3">
-                <label class="form-label"><i class="bi bi-tag"></i>Chủ đề</label>
-                <input type="text" name="subject" class="form-control" placeholder="Vấn đề bạn gặp phải..." required>
+                <label class="form-label"><i class="bi bi-tag-fill"></i>Chủ đề</label>
+                <input type="text" name="subject" class="form-control" placeholder="Bạn cần hỗ trợ gì?" required>
             </div>
             <div class="mb-3">
-                <label class="form-label"><i class="bi bi-chat-dots"></i>Nội dung</label>
-                <textarea name="message" class="form-control" rows="5" placeholder="Nhập nội dung liên hệ..." required></textarea>
+                <label class="form-label"><i class="bi bi-chat-dots-fill"></i>Nội dung</label>
+                <textarea name="message" class="form-control" rows="4" placeholder="Nhập nội dung liên hệ..." required></textarea>
             </div>
             <button type="submit" class="btn btn-primary w-100">Gửi liên hệ</button>
         </form>
