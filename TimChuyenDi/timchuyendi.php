@@ -56,10 +56,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Tìm chuyến đi (Ride Pooling)</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('images/car_thanhphoHCM.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .content-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+        h3, h5 {
+            font-weight: bold;
+        }
+    </style>
 </head>
-<body class="bg-light p-5">
+<body class="p-5">
 <div class="container" style="max-width: 700px;">
-    <div class="bg-white p-4 rounded shadow">
+    <div class="content-box">
         <h3 class="text-center mb-4">Tìm chuyến đi chung</h3>
 
         <form method="POST">
@@ -90,10 +109,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <?php if (!empty($results)): ?>
-        <div class="mt-4 bg-white p-3 rounded shadow">
+        <div class="content-box">
             <h5>Kết quả tìm kiếm:</h5>
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-bordered table-striped table-hover mt-3">
+                <thead class="table-light">
                 <tr>
                     <th>Tài xế</th>
                     <th>Điểm đi</th>
@@ -127,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </table>
         </div>
     <?php elseif ($_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-        <div class="mt-4 alert alert-warning">Không tìm thấy chuyến đi phù hợp.</div>
+        <div class="alert alert-warning content-box text-center">Không tìm thấy chuyến đi phù hợp.</div>
     <?php endif; ?>
 </div>
 </body>
