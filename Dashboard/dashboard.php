@@ -59,5 +59,6 @@ $role = $_SESSION["role"];
         <a href="../Dashboard/profile.php" class="btn btn-outline-dark w-100 mt-3 mb-2">👤 Hồ sơ cá nhân</a>
         <a href="../Dangnhap/logout.php" class="btn btn-danger w-100">Đăng xuất</a>
     </div>
+    
 </body>
 </html>

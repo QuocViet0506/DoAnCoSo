@@ -10,6 +10,7 @@ if (!$to_id) {
 }
 
 // 👉 Lấy tên người nhận
+//ABC
 $stmt = $pdo->prepare("SELECT full_name FROM users WHERE user_id = ?");
 $stmt->execute([$to_id]);
 $receiver = $stmt->fetch();
