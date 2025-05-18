@@ -3,7 +3,9 @@ require_once '../config/config.php';
 
 $trip_id = $_GET['trip_id'] ?? null;
 
+ //Hà Lê Quốc Việt 2280603661
 if (!$trip_id) {
+
     echo "<p>Không có mã chuyến đi.</p>";
     exit;
 }

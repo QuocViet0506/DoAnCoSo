@@ -3,7 +3,7 @@ session_start();
 require_once '../config/Database.php';
 
 $error = "";
-
+//Hà Lê Quốc Việt 2280603661
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = $_POST['email'];
     $password = $_POST['password'];

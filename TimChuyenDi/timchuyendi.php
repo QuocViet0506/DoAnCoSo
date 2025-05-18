@@ -3,6 +3,7 @@ session_start();
 require_once '../config/Database.php';
 
 // Hàm tính khoảng cách giữa 2 tọa độ GPS
+ //Hà Lê Quốc Việt 2280603661
 function haversine($lat1, $lon1, $lat2, $lon2) {
     $R = 6371; // km
     $dLat = deg2rad($lat2 - $lat1);

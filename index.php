@@ -4,6 +4,7 @@ session_start();
 require_once("config/config.php");
 
 // 👉 Kiểm tra đăng nhập, nếu chưa đăng nhập chuyển về trang login
+// Hà Lê Quốc Việt 2280603661
 if (!isset($_SESSION['user_id'])) {
     header("Location: Dangnhap/login.php");
     exit();
@@ -82,18 +83,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['trip_id'])) {
 <!-- 👉 Thanh điều hướng -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="#">CarpoolNow</a>
+        <a class="navbar-brand fw-bold" href="index.php">CarpoolNow</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <!-- 👉 Các mục trên thanh menu -->
-                <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Khách hàng</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tài xế</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact.php">Liên hệ</a></li> <!-- 👉 Trang liên hệ -->
+                <li class="nav-item"><a class="nav-link active" href="index.php">Trang chủ</a></li>
+                <li class="nav-item"><a class="nav-link" href="hangkhach.php">Khách hàng</a></li>
+                <li class="nav-item"><a class="nav-link" href="taixe.php">Tài xế</a></li>
+                <li class="nav-item"><a class="nav-link" href="tintuc.php">Tin tức</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.php">Liên hệ</a></li>
             </ul>
             <!-- 👉 Thông tin người dùng và nút đăng xuất -->
             <span class="navbar-text me-3 text-white">👋 <?= $name ?> (<?= $role ?>)</span>
@@ -124,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['trip_id'])) {
 
         <?php elseif ($role === 'driver'): ?>
             <!-- 👉 Tài xế: Tạo chuyến đi và xử lý yêu cầu -->
-            <a href="Dashboard/taochuyendi.php" class="btn btn-primary w-100 mb-2">🚗 Tạo chuyến đi</a>
+            <a href="TimChuyenDi/taochuyendi.php" class="btn btn-primary w-100 mb-2">🚗 Tạo chuyến đi</a>
             <a href="Dashboard/manage_requests.php" class="btn btn-outline-secondary w-100 mb-3">📩 Yêu cầu đặt chỗ</a>
 
             <!-- 👉 Form hoàn thành chuyến đi -->

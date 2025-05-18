@@ -3,6 +3,7 @@ error_reporting(E_ERROR | E_PARSE);
 session_start();
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../Dangnhap/login.php");
+    //Hà Lê Quốc Việt 2280603661
     exit();
 }
 

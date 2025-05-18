@@ -3,6 +3,7 @@ require_once '../config/Database.php';
 
 $success = "";
 $error = "";
+//Hà Lê Quốc Việt 2280603661
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = trim($_POST["full_name"]);

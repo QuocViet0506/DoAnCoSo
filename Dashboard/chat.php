@@ -3,6 +3,7 @@ session_start();
 require_once '../config/config.php';
 
 $my_id = $_SESSION['user_id'];
+//Hà Lê Quốc Việt 2280603661
 $to_id = $_GET['to'] ?? null;
 
 if (!$to_id) {

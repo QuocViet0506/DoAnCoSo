@@ -3,7 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+//Hà Lê Quốc Việt 2280603661
 // Cấu hình kết nối database
 define("DB_HOST", "localhost");
 define("DB_NAME", "carpool_app");

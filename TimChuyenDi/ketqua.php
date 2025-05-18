@@ -3,6 +3,7 @@ require_once '../config/Database.php';
 
 $start = trim($_GET['start_location']);
 $end = trim($_GET['end_location']);
+ //Hà Lê Quốc Việt 2280603661
 $time = $_GET['departure_time'];
 
 $stmt = $pdo->prepare("SELECT t.*, l1.name AS from_name, l2.name AS to_name

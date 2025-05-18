@@ -3,6 +3,7 @@ session_start();
 require_once '../config/config.php';
 
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'passenger') {
+    //Hà Lê Quốc Việt 2280603661
     header("Location: ../Dangnhap/login.php");
     exit();
 }

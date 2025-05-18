@@ -3,6 +3,7 @@ session_start();
 require_once '../config/config.php';
 
 if ($_SESSION['role'] !== 'admin') {
+    //Hà Lê Quốc Việt 2280603661
     exit("🚫 Truy cập bị từ chối.");
 }
 
