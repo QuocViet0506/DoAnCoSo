@@ -10,6 +10,7 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== 'passenger') {
 
 $user_id = $_SESSION["user_id"];
 
+// Truy vấn danh sách chuyến đã hoàn thành
 $stmt = $pdo->prepare("
     SELECT t.trip_id, t.departure_time, t.price, t.available_seats,
            l1.name AS from_location, l2.name AS to_location,
@@ -31,29 +32,44 @@ $trips = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Lịch sử chuyến đi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
         }
         .container {
             background: #fff;
             border-radius: 12px;
-            padding: 30px;
+            padding: 24px;
             margin-top: 40px;
             box-shadow: 0 0 10px rgba(0,0,0,0.08);
         }
         h2 {
             font-weight: 600;
+            font-size: 1.5rem;
         }
         table th, table td {
             vertical-align: middle;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.25rem;
+            }
+            .container {
+                padding: 16px;
+            }
+            table {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2 class="mb-4 text-primary">📜 Lịch sử chuyến đi đã hoàn thành</h2>
+    <h2 class="mb-4 text-primary text-center">📜 Lịch sử chuyến đi đã hoàn thành</h2>
 
     <?php if (empty($trips)): ?>
         <div class="alert alert-info text-center">
@@ -61,8 +77,8 @@ $trips = $stmt->fetchAll();
         </div>
     <?php else: ?>
         <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark text-center">
+            <table class="table table-bordered table-hover align-middle text-center">
+                <thead class="table-dark">
                     <tr>
                         <th>Tài xế</th>
                         <th>Điểm đi</th>

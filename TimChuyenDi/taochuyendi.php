@@ -1,9 +1,13 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start();
 
- //Hà Lê Quốc Việt 2280603661
+// ✅ Kiểm tra nếu session chưa khởi tạo
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Hà Lê Quốc Việt 2280603661
 require_once '../config/Database.php';
 
 // ✅ Kiểm tra đăng nhập & quyền tài xế
@@ -28,11 +32,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $notes     = $_POST["notes"];
 
     try {
+        // Thêm chuyến đi
         $stmt = $pdo->prepare("
-            INSERT INTO trips (driver_id, from_location_id, to_location_id, departure_time, available_seats, price, notes)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO trips (driver_id, from_location_id, to_location_id, departure_time, available_seats, price, notes, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, 'pending')
         ");
         $stmt->execute([$driver_id, $from_id, $to_id, $departure, $seats, $price, $notes]);
+        $trip_id = $pdo->lastInsertId();
+
+        // Giả định: Tạo bản ghi ride_request (chưa có logic hành khách thực tế)
+        $passenger_id = 2; // TODO: Thay bằng hành khách thực tế khi tích hợp
+        $request_stmt = $pdo->prepare("
+            INSERT INTO ride_requests (trip_id, passenger_id, status)
+            VALUES (?, ?, 'accepted')
+        ");
+        $request_stmt->execute([$trip_id, $passenger_id]);
+
         $success = "✅ Tạo chuyến đi thành công!";
     } catch (PDOException $e) {
         $error = "❌ Lỗi khi tạo chuyến: " . $e->getMessage();

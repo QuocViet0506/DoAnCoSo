@@ -117,10 +117,10 @@ $role = $user['role'];
 
     <!-- Nội dung -->
     <div class="main-box">
-        <h2>Trang dành cho Tài xế</h2>
-        <p>Xin chào <strong><?= $full_name ?></strong>! Đây là trang dành riêng cho tài xế và quản trị viên.</p>
+        <h2>Trang dành cho Tài xế / Admin</h2>
+        <p>Xin chào <strong><?= $full_name ?></strong>! Đây là trang dành cho tài xế và quản trị viên để xử lý yêu cầu đi xe.</p>
 
-        <?php if ($role === 'driver'): ?>
+        <?php if (in_array($role, ['driver', 'admin'])): ?>
         <hr>
         <h5>Yêu cầu được duyệt cho bạn:</h5>
         <ul class="list-group">
@@ -143,7 +143,7 @@ $role = $user['role'];
                     echo "<small>🕒 Thời gian: {$req['request_time']}</small><br>";
 
                     if ($req['driver_action'] === 'pending') {
-                        echo "<form method='post' action='actions/handle_driver_action.php' class='mt-2'>";
+                        echo "<form method='post' action='actions/handle_driver_action.php' class='mt-2'>"; // Action file xử lý
                         echo "<input type='hidden' name='request_id' value='{$req['request_id']}'>";
                         echo "<button name='action' value='accept' class='btn btn-success btn-sm me-2'>✔ Thực hiện</button>";
                         echo "<button name='action' value='reject' class='btn btn-danger btn-sm'>✖ Không thực hiện</button>";

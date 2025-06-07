@@ -3,23 +3,21 @@ session_start();
 require_once '../config/config.php';
 
 // ✅ Chỉ cho phép admin truy cập
-//Hà Lê Quốc Việt 2280603661
-
 if ($_SESSION["role"] !== "admin") {
     exit("Truy cập bị từ chối.");
 }
 
-// ✅ Xử lý cập nhật trạng thái người dùng
+// ✅ Xử lý cập nhật trạng thái người dùng (Khóa/Mở khóa)
 if (isset($_GET['action']) && isset($_GET['id'])) {
-    $new_status = $_GET['action'];
     $user_id = $_GET['id'];
+    $new_status = $_GET['action'] === 'lock' ? 0 : 1;
 
     $stmt = $pdo->prepare("UPDATE users SET status = ? WHERE user_id = ?");
     if ($stmt->execute([$new_status, $user_id])) {
         header("Location: admin_manage_users.php");
         exit();
     } else {
-        echo "<p>Lỗi cập nhật trạng thái người dùng.</p>";
+        echo "<p class='text-danger'>Lỗi cập nhật trạng thái người dùng.</p>";
     }
 }
 
@@ -53,28 +51,32 @@ $users = $pdo->query("SELECT * FROM users ORDER BY created_at DESC")->fetchAll()
                 </thead>
                 <tbody>
                     <?php foreach ($users as $u): 
-                        $status = $u['status'] ?? 'active';
-                        $is_active = $status === 'active';
+                        $is_active = $u['status'] == 1;
                         $status_badge = $is_active 
                             ? '<span class="badge bg-success"><i class="fas fa-check-circle me-1"></i> Đã xác minh</span>' 
                             : '<span class="badge bg-danger"><i class="fas fa-lock me-1"></i> Bị khóa</span>';
 
                         $action_label = $is_active ? 'Khóa' : 'Mở khóa';
-                        $toggle_status = $is_active ? 'inactive' : 'active';
+                        $toggle_status = $is_active ? 'lock' : 'unlock';
                     ?>
                     <tr>
                         <td><?= htmlspecialchars($u['full_name']) ?></td>
                         <td><?= htmlspecialchars($u['email']) ?></td>
                         <td><?= htmlspecialchars($u['phone']) ?></td>
-                        <td><span class="badge bg-info text-dark"><?= $u['auth_provider'] ?></span></td>
+                        <td><span class="badge bg-info text-dark"><?= htmlspecialchars($u['auth_provider']) ?></span></td>
                         <td><?= $status_badge ?></td>
                         <td>
-                            <a href="?action=<?= $toggle_status ?>&id=<?= $u['user_id'] ?>" class="btn btn-sm <?= $is_active ? 'btn-outline-danger' : 'btn-outline-success' ?>">
+                            <a href="?action=<?= $toggle_status ?>&id=<?= $u['user_id'] ?>" 
+                               class="btn btn-sm <?= $is_active ? 'btn-outline-danger' : 'btn-outline-success' ?>"
+                               onclick="return confirm('Bạn có chắc muốn <?= strtolower($action_label) ?> tài khoản này không?')">
                                 <i class="fas <?= $is_active ? 'fa-lock' : 'fa-unlock' ?>"></i> <?= $action_label ?>
                             </a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
+                    <?php if (count($users) == 0): ?>
+                        <tr><td colspan="6" class="text-center text-muted">Không có người dùng nào.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

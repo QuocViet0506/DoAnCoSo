@@ -3,7 +3,8 @@ session_start();
 require_once '../config/Database.php';
 
 $error = "";
-//Hà Lê Quốc Việt 2280603661
+
+// Hà Lê Quốc Việt 2280603661
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email    = $_POST['email'];
     $password = $_POST['password'];
@@ -14,11 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id']    = $user['user_id'];
-            $_SESSION['full_name']  = $user['full_name'];
-            $_SESSION['role']       = $user['role'];
-            header('Location: ../Dashboard/dashboard.php');
-            exit();
+            if ($user['status'] == 0) {
+                $error = "⚠️ Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.";
+            } else {
+                $_SESSION['user_id']    = $user['user_id'];
+                $_SESSION['full_name']  = $user['full_name'];
+                $_SESSION['role']       = $user['role'];
+                header('Location: ../Dashboard/dashboard.php');
+                exit();
+            }
         } else {
             $error = "❌ Sai email hoặc mật khẩu.";
         }
@@ -40,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h2 class="mb-4">Đăng nhập</h2>
 
     <?php if ($error): ?>
-        <div class="alert alert-danger"><?= $error ?></div>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
     <form method="post">

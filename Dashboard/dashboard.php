@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ERROR | E_PARSE);
 session_start();
+require_once '../config/config.php';
+
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../Dangnhap/login.php");
     //Hà Lê Quốc Việt 2280603661
@@ -9,6 +11,31 @@ if (!isset($_SESSION["user_id"])) {
 
 $name = htmlspecialchars($_SESSION["user_name"]);
 $role = $_SESSION["role"];
+$message = '';
+
+// Kiểm tra số lượng chuyến đi cần đánh giá (chỉ cho hành khách)
+if ($role === "passenger") {
+    try {
+        $pending_stmt = $pdo->prepare("
+            SELECT COUNT(*) 
+            FROM trips t
+            JOIN ride_requests r ON t.trip_id = r.trip_id
+            WHERE r.passenger_id = ? AND t.status = 'completed' AND t.driver_confirmed = 1
+            AND NOT EXISTS (SELECT 1 FROM reviews rv WHERE rv.trip_id = t.trip_id AND rv.reviewer_id = ?)
+        ");
+        $pending_stmt->execute([$_SESSION["user_id"], $_SESSION["user_id"]]);
+        $pending_count = $pending_stmt->fetchColumn();
+
+        if ($pending_count > 0) {
+            $message = "<div class='alert alert-warning text-center'>
+                Bạn có <strong>$pending_count</strong> chuyến đi cần đánh giá. 
+                <a href='rate_driver.php' class='alert-link'>Xem chi tiết</a>
+            </div>";
+        }
+    } catch (PDOException $e) {
+        $message = "<div class='alert alert-danger text-center'>❌ Lỗi truy vấn: " . $e->getMessage() . "</div>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +70,9 @@ $role = $_SESSION["role"];
         <p>Bạn đang đăng nhập với vai trò: <span class="badge bg-primary text-uppercase"><?= $role ?></span></p>
 
         <hr>
+
+        <!-- Hiển thị thông báo nếu có -->
+        <?php if (!empty($message)) echo $message; ?>
 
         <?php if ($role === "passenger"): ?>
             <a href="../TimChuyenDi/timchuyendi.php" class="btn btn-success w-100 mb-2">🔍 Tìm chuyến đi</a>
